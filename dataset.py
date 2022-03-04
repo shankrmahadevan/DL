@@ -83,4 +83,4 @@ def convert_to_tfrecord(df, file_name, num_shards=10):
           output_shard_index = row % num_shards
           output_tfrecords[output_shard_index].write(tf_example.SerializeToString())
 
-convert_to_tfrecord(df, 'tfod-dataset')
+convert_to_tfrecord(df, 'dataset/tfod-dataset')
