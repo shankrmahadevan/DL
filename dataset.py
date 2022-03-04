@@ -83,4 +83,15 @@ def convert_to_tfrecord(df, file_name, num_shards=10):
           output_shard_index = row % num_shards
           output_tfrecords[output_shard_index].write(tf_example.SerializeToString())
 
+import os
+if not os.path.exists('dataset'):
+    os.mkdir('dataset')
 convert_to_tfrecord(df, 'dataset/tfod-dataset')
+label_map_str = ''
+for label in sorted(labels.items(), key=lambda x:x[1]):
+  label_map_str += 'item {\n'
+  label_map_str += f'name: "{label[0]}"\n'
+  label_map_str += f'id: {label[1] + 1}\n'
+  label_map_str += '}\n'
+with open('dataset/label_map.pbtxt', 'w') as f:
+  f.write(label_map_str)
